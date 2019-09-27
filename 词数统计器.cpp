@@ -1,26 +1,27 @@
-/*2019.9.21 ¿ªÊ¼±à³Ì
-±¾¼ÆÊıÆ÷ÓÃÓÚÍ³¼ÆÈô¸É¶ÎÂäµÄÓ¢ÎÄµ¥´ÊÊıºÍ×ÜÁ¿¡£
-¿ª·¢»·¾³£ºDev C++ 5.9.2
-±àÒëÆ÷ÅäÖÃ:TDM-GCC 4.8.1 64-bit Release*/
+/*2019.9.21 å¼€å§‹ç¼–ç¨‹ 2019.9.24å®Œæˆ
+å¼€å‘ç¯å¢ƒï¼šDev C++ 5.9.2
+ç¼–è¯‘å™¨é…ç½®:TDM-GCC 4.8.1 64-bit Release*/
+//åŠŸèƒ½ï¼šè®¡æ•°ä¸€ç¯‡æ–‡ç« ä¸­çš„æ®µè½æ•°ä»¥åŠæ¯æ®µå«æœ‰çš„å•è¯æ•°ï¼Œå¹¶ç»™å‡ºæ€»è¯æ•°ã€‚
 #include<stdio.h>
 #include<stdlib.h> 
 #include<string.h>
 #include<windows.h>
 typedef struct paraunit
 {
-	int paranum;                                 //¶¨Òå¶ÎÂäĞòºÅ 
-	int wordnum;                                 //¶¨ÒåÃ¿¶Îº¬ÓĞµÄµ¥´ÊÊıÁ¿ 
-	struct paraunit *next;                        //Ö¸ÏòÏÂÒ»¶Î 
-}paraunit;                                        //¶ÎÂäÁ´±íµ¥Ôª
+	int paranum;                                                         //å®šä¹‰æ®µè½åºå· 
+	int wordnum;                                                         //å®šä¹‰æ¯æ®µå«æœ‰çš„å•è¯æ•°é‡ 
+	struct paraunit *next;                                               //æŒ‡å‘ä¸‹ä¸€æ®µ 
+}paraunit;                                                                   //æ®µè½é“¾è¡¨å•å…ƒ
 typedef struct word0
 {
-	char c;                                      //¶¨Òå×Ö·û 
-	word0 *next;                                 //Ö¸ÏòÏÂ¸ö×Ö·û 
+	char c;                                                              //å®šä¹‰å­—ç¬¦ 
+	word0 *next;                                                         //æŒ‡å‘ä¸‹ä¸ªå­—ç¬¦ 
 }word0;
-struct paraunit *countword(char *paragraph);     //¶¨Òå¼ÆÊıº¯Êı£¬ÊäÈë¶ÎÂä£¬·µ»ØÒ»¸öÁ´±í
-struct word0 *inputparagraph();                  //¶¨ÒåÊäÈë¶ÎÂäº¯Êı
-word0* linkparagraph(word0 *paragraph1,word0* paragraph2);
-void printout(paraunit *list);
+struct paraunit *countword(char *paragraph);                                 //å®šä¹‰è®¡æ•°å‡½æ•°ï¼Œè¾“å…¥æ®µè½ï¼Œè¿”å›ä¸€ä¸ªé“¾è¡¨
+struct word0 *inputparagraph();                                              //å®šä¹‰è¾“å…¥æ®µè½å‡½æ•°
+word0* linkparagraph(word0 *paragraph1,word0* paragraph2);                   //æ®µè½è¿æ¥
+void printout(paraunit *list); 						     //è¾“å‡º
+//è¿æ¥æ‰€è¾“å…¥çš„ä¸¤ä¸ªæ®µè½é“¾è¡¨
 word0* linkparagraph(word0 *paragraph1,word0* paragraph2)
 {
 	word0 *t;
@@ -34,17 +35,18 @@ word0* linkparagraph(word0 *paragraph1,word0* paragraph2)
 	}
 	return paragraph1;
 }
+//ä»¥é“¾è¡¨å½¢å¼è¾“å…¥æ®µè½
 struct word0 *inputparagraph()
 {
 	char t;                                     
 	word0 *p,*p1; 
-	scanf("%c",&t);
-	if(t=='#')return NULL;                               
+	scanf("%c",&t);                                                        //ç¬¬ä¸€æ¬¡è¾“å…¥
+	if(t=='#'||t=='\n')return NULL;                               
 	p1=(word0 *)malloc(sizeof(word0));
 	p1->c=t;
 	p1->next=NULL;
 	p=p1;
-	scanf("%c",&t);
+	scanf("%c",&t);                                                        //ä¸‹ä¸€æ¬¡è¾“å…¥
 	while(t!='\n')
 	{
 		p1->next=(word0 *)malloc(sizeof(word0));
@@ -53,7 +55,7 @@ struct word0 *inputparagraph()
 		p1->next=NULL;
 		scanf("%c",&t);
 	}
-	p1->next=(word0 *)malloc(sizeof(word0));
+	p1->next=(word0 *)malloc(sizeof(word0));                               //æ®µè½å°¾ç¼–è¾‘
 	p1=p1->next;
 	p1->c='\0';
 	p1->next=NULL;
@@ -69,7 +71,7 @@ struct paraunit *countword(word0* paragraph)
 	ch1->paranum=0;
 	ch1->wordnum=0;
 	ch=ch1;
-	bool sletter,bletter,others,numbers;
+	bool sletter,bletter,others,numbers;                                    //å•è¯ç»„æˆï¼ŒåŒ…æ‹¬å¤§å°å†™å­—æ¯ï¼Œè¿å­—ç¬¦ï¼Œå•å¼•å·å’Œæ•°å­—
 	while(t!=NULL)
 	{
 		ra++;
@@ -109,27 +111,22 @@ void printout(paraunit *list)
 	p=list;
 	while(p!=NULL)
 	{
-		printf("µÚ%d¶Î¹²ÓĞ%d¸öµ¥´Ê¡£\n",p->paranum,p->wordnum);
+		printf("ç¬¬%dæ®µå…±æœ‰%dä¸ªå•è¯ã€‚\n",p->paranum,p->wordnum);
 		sum1=p->paranum;
 		sum2+=p->wordnum;
-		if(p->wordnum!=0)sum3++;
 		p=p->next;
 	}
-	printf("È«ÎÄ¹²%d¶Î£¬%d¸ö·Ç¿Õ¶Î£¬ºÏ¼Æ%d¸öµ¥´Ê¡£\n",sum1,sum3,sum2);
+	printf("å…¨æ–‡å…±%dæ®µï¼Œåˆè®¡%dä¸ªå•è¯ã€‚\n",sum1,sum2);
 }
 int main()
 { 
 	word0 *para=NULL,*para1;
-	printf("ÇëÊäÈë¶ÎÂä(Ò»¸ö»Ø³µÎªÒ»¶Î)£¬ÒÔ#Îª¶ÎÊ×½áÊø£º\n");
+	printf("è¯·è¾“å…¥æ®µè½(ä¸€ä¸ªå›è½¦ä¸ºä¸€æ®µ)ï¼Œä»¥#ä¸ºæ®µé¦–ç»“æŸï¼š\n");
 	do
 	{
-		para1=inputparagraph();
-		para=linkparagraph(para,para1);
+		para1=inputparagraph();                                          //è¾“å…¥ä¸€ä¸ªæ®µè½
+		para=linkparagraph(para,para1);                                  //ä¸å‰æ®µè¿æ¥
 	}while(para1!=NULL);
-	printout(countword(para));
+	printout(countword(para));                                               //è¾“å‡º
 	return 0;	
 }
-
- 
-
-
