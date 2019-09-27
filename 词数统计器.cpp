@@ -60,7 +60,8 @@ struct word0 *inputparagraph()
 	p1->c='\0';
 	p1->next=NULL;
 	return p;
-}	               
+}	  
+//计数函数，遍历链表，当遇到空格时做出标记，如果后方有新词则词数+1，遇到回车则段落+1.
 struct paraunit *countword(word0* paragraph)
 {
 	word0 *t;
@@ -104,6 +105,7 @@ struct paraunit *countword(word0* paragraph)
 	ch1->next=NULL; 
 	return ch;
 }
+//遍历链表输出
 void printout(paraunit *list)
 {
 	int sum1=0,sum2=0,sum3=0; 
@@ -118,6 +120,7 @@ void printout(paraunit *list)
 	}
 	printf("全文共%d段，合计%d个单词。\n",sum1,sum2);
 }
+//主函数
 int main()
 { 
 	word0 *para=NULL,*para1;
